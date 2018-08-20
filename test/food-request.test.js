@@ -1,11 +1,38 @@
-process.env.NODE_ENV = 'test'
+const chai = require('chai');
+const expect = chai.expect;
+const assert = chai.assert;
+const should = chai.should();
+const chaiHttp = require('chai-http');
+const app = require('../app');
 
-import chai, { expect } from 'chai';
-import chaiHttp from 'chai-http';
-import app from '../app'
-import foods from './fixtures/foods'
 
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('../knexfile')[environment];
+const database = require('knex')(configuration);
 chai.use(chaiHttp);
+
+before((done) => {
+    database.migrate.latest()
+      .then(() => done())
+      .catch(error => {
+        throw error;
+      });
+  });
+
+  beforeEach((done) => {
+    database.seed.run()
+    .then( () => {
+      return Promise.all([
+        database('foods').insert({name:"pickle", calories: 0, id:1}, 'id'),
+        database('foods').insert({name:"cilantro", calories: 1, id:2}, 'id'),
+        database('foods').insert({name:"green onion", calories: 5, id:3}, 'id')
+      ])
+    })
+    .then(() => done())
+    .catch(error => {
+      throw error;
+    });
+  });
 
 describe('Food Requests', () => {
   context('GET /api/v1/foods', () => {
@@ -13,11 +40,8 @@ describe('Food Requests', () => {
       chai.request(app)
         .get('/api/v1/foods')
         .end((error, response) => {
-          if (error) {
-            console.error(error);
-          }
-
-          expect(response.body).to.deep.eq(foods)
+          debugger
+          expect(response.body.length).to.equal(3)
           expect(response).to.have.status(200);
 
           done();
