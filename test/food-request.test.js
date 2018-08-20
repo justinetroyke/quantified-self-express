@@ -40,9 +40,10 @@ describe('Food Requests', () => {
       chai.request(app)
         .get('/api/v1/foods')
         .end((error, response) => {
-          debugger
-          expect(response.body.length).to.equal(3)
+          console.log(response);
           expect(response).to.have.status(200);
+          expect(response.body.length).to.equal(3);
+          expect(response.body[0].name).to.equal('pickle')
 
           done();
         });
