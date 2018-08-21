@@ -18,6 +18,16 @@ router.get('/foods', (request, response, next)=>{
     });
 });
 
+router.get('/meals', (request, response, next)=>{
+  database('meals').select()
+    .then((meals)=>{
+      response.status(200).json(meals)
+    })
+    .catch((error)=>{
+      response.status(500).json({error})
+    });
+});
+
 router.get('/foods/:id', (request, response, next)=>{
   let id = request.params.id
   database('foods').select().where('id', id)
