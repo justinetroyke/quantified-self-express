@@ -58,20 +58,23 @@ describe('Meal Requests', () => {
     });
   })
 
-  // describe('GET /api/v1/food/:id', () => {
-  //   it('should return specific food for ID', done => {
-  //     chai.request(app)
-  //       .get('/api/v1/foods/3')
-  //       .end((error, response) => {
-  //         expect(response).to.have.status(200);
-  //         response.body.should.have.property('name')
-  //         response.body.should.have.property('calories')
-  //         response.body.should.have.property('id')
-  //
-  //         done();
-  //       });
-  //   });
-  // });
+  describe('GET /api/v1/meals/:id', () => {
+    it('should return specific meal for ID and associated foods', done => {
+      chai.request(app)
+        .get('/api/v1/meals/3/foods')
+        .end((error, response) => {
+          expect(response).to.have.status(200);
+          response.body.should.have.property('name')
+          response.body[0].should.have.property('name')
+          response.body[0].name.should.equal('Lunch')
+          response.body[0].id.should.equal(3)
+          response.body[0].foods.length.should.equal(2)
+
+          done();
+        });
+      done();
+    });
+  });
 
   // describe('post /api/v1/food/:id', () => {
   //   it('should create a food for ID', done => {
