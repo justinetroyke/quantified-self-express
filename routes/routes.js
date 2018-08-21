@@ -8,7 +8,7 @@ const configuration = require('../knexfile')[environment];
 const database = require('knex')(configuration);
 router.use(cors());
 
-router.get('/foods', (request, response, next)=>{
+router.get('/foods', cors(), (request, response, next)=>{
   database('foods').select()
     .then((foods)=>{
       response.status(200).json(foods)
@@ -18,7 +18,7 @@ router.get('/foods', (request, response, next)=>{
     });
 });
 
-router.get('/meals', (request, response, next)=>{
+router.get('/meals', cors(), (request, response, next)=>{
   database('meals').select()
     .then((meals)=>{
       response.status(200).json(meals)
@@ -28,7 +28,7 @@ router.get('/meals', (request, response, next)=>{
     });
 });
 
-router.get('/foods/:id', (request, response, next)=>{
+router.get('/foods/:id', cors(), (request, response, next)=>{
   let id = request.params.id
   database('foods').select().where('id', id)
     .then((foods)=>{
@@ -50,7 +50,7 @@ router.get('/meals/:id/foods', async(request, response, next)=>{
     });
 });
 
-router.post('/foods', (request, response, next)=>{
+router.post('/foods', cors(), (request, response, next)=>{
   let food_params = request.body.food
   database('foods').insert(food_params, 'id')
       .returning(['id', 'name', 'calories'])
