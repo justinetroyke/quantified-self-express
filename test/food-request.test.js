@@ -40,7 +40,6 @@ describe('Food Requests', () => {
       chai.request(app)
         .get('/api/v1/foods')
         .end((error, response) => {
-          // console.log(response);
           expect(response).to.have.status(200);
           expect(response.body.length).to.equal(3);
           response.body[0].should.have.property('name')
@@ -53,11 +52,10 @@ describe('Food Requests', () => {
   })
 
   describe('GET /api/v1/food/:id', () => {
-    it('should return sepcific food for ID', done => {
+    it('should return specific food for ID', done => {
       chai.request(app)
         .get('/api/v1/foods/3')
         .end((error, response) => {
-          // console.log(response);
           expect(response).to.have.status(200);
           response.body.should.have.property('name')
           response.body.should.have.property('calories')
@@ -65,6 +63,28 @@ describe('Food Requests', () => {
 
           done();
         });
+    });
+  });
+
+  describe('post /api/v1/food/:id', () => {
+    it('should create a food for ID', done => {
+      let name = 'PB'
+      let calories = 85
+      chai.request(app)
+        .post('/api/v1/foods')
+        .send({
+          food:{
+            name:name,
+            calories:calories
+          }
+        }).end((err, response) => {
+          expect(response).to.have.status(200);
+          response.body.should.have.property('name')
+          response.body.should.have.property('calories')
+          response.body.should.have.property('id')
+          done();
+        });
+      done();
     });
   });
 });
