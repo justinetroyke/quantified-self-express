@@ -39,6 +39,17 @@ router.get('/foods/:id', (request, response, next)=>{
     });
 });
 
+router.get('/meals/:id/foods', async(request, response, next)=>{
+  let id = request.params.id
+  let meal = await database('meals').where({id:id}).select()
+  let foods = await Meal.foods(meal[0].id)
+    meal[0].foods = foods
+    response.status(200).json(meal[0])
+    .catch((error)=>{
+      response.status(404).json({error:"meal not found"})
+    });
+});
+
 router.post('/foods', (request, response, next)=>{
   let food_params = request.body.food
   database('foods').insert(food_params, 'id')
