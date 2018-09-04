@@ -8,15 +8,15 @@ const configuration = require('../knexfile')[environment];
 const database = require('knex')(configuration);
 router.use(cors());
 
-router.get('/foods', cors(), (request, response, next)=>{
-  database('foods').select()
-    .then((foods)=>{
-      response.status(200).json(foods)
-    })
-    .catch((error)=>{
-      response.status(500).json({error})
-    });
-});
+// router.get('/foods', cors(), (request, response, next)=>{
+//   database('foods').select()
+//     .then((foods)=>{
+//       response.status(200).json(foods)
+//     })
+//     .catch((error)=>{
+//       response.status(500).json({error})
+//     });
+// });
 
 router.get('/meals', cors(), (request, response, next)=>{
   database('meals').select()
