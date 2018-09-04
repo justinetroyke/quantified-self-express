@@ -12,6 +12,13 @@ class Food {
     return database('foods').where('id', id).select('id', 'name', 'calories')
     .then(rows => rows[0])
   }
+
+  static create(attributes) {
+    return database('foods')
+    .insert(attributes)
+    .returning(['id', 'name', 'calories'])
+    .then(rows => rows[0])
+  }
 }
 
 module.exports = Food

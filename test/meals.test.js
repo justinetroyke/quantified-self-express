@@ -27,6 +27,15 @@ before((done) => {
         database('foods').insert({name:"cilantro", calories: 1, id:2}, 'id'),
         database('foods').insert({name:"green onion", calories: 5, id:3}, 'id')
       ])
+    })    .then( ()=>{
+      return Promise.all([
+        database('meal_foods').insert({meals_id:1, food_id:1}, 'id'),
+        database('meal_foods').insert({meals_id:2, food_id:2}, 'id'),
+        database('meal_foods').insert({meals_id:3, food_id:3}, 'id'),
+        database('meal_foods').insert({meals_id:4, food_id:3}, 'id'),
+        database('meal_foods').insert({meals_id:3, food_id:2}, 'id'),
+        database('meal_foods').insert({meals_id:2, food_id:1}, 'id'),
+      ])
     })
     .then(() => done())
     .catch(error => {
@@ -34,38 +43,38 @@ before((done) => {
     });
   });
 
-describe('Food Requests', () => {
-  context('GET /api/v1/foods', () => {
-    it('should return all foods in the database', done => {
+describe('Meal Requests', () => {
+  context('GET /api/v1/meals', () => {
+    it('should return all meals in the database', done => {
       chai.request(app)
-        .get('/api/v1/foods')
+        .get('/api/v1/meals')
         .end((error, response) => {
           expect(response).to.have.status(200);
-          expect(response.body.length).to.equal(3);
+          expect(response.body.length).to.equal(4);
           response.body[0].should.have.property('name')
-          response.body[0].should.have.property('calories')
-          response.body[0].should.have.property('id')
 
           done();
         });
     });
   })
 
-  describe('GET /api/v1/food/:id', () => {
-    it('should return specific food for ID', done => {
-      chai.request(app)
-        .get('/api/v1/foods/3')
-        .end((error, response) => {
-          expect(response).to.have.status(200);
-          response.body.should.have.property('name')
-          response.body.should.have.property('calories')
-          response.body.should.have.property('id')
-
-          done();
-        });
-    });
-  });
-
+//   describe('GET /api/v1/meals/:id', () => {
+//     it('should return specific meal for ID and associated foods', done => {
+//       chai.request(app)
+//         .get('/api/v1/meals/3/foods')
+//         .end((error, response) => {
+//           expect(response).to.have.status(200);
+//           response.body.should.have.property('name')
+//           response.body[0].should.have.property('name')
+//           response.body[0].name.should.equal('Lunch')
+//           response.body[0].id.should.equal(3)
+//           response.body[0].foods.length.should.equal(2)
+//
+//           done();
+//         });
+//       done();
+//     });
+//   });
 //
 //   describe('post /api/v1/food/:id', () => {
 //     it('should create a food for ID', done => {

@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 // var route = require('./routes/routes');
 const foodsRouter = require('./routes/api/v1/foods');
+const mealsRouter = require('./routes/api/v1/meals');
 
 var cors = require('cors')
 var app = express();
@@ -32,6 +33,7 @@ app.options('*', cors())
 
 // app.use('/api/v1', route);
 app.use('/api/v1/foods', foodsRouter);
+app.use('/api/v1/meals', mealsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
