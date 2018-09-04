@@ -34,11 +34,11 @@ before((done) => {
     });
   });
 
-describe('Food Requests', () => {
-  context('GET /api/v1/foods', () => {
-    it('should return all foods in the database', done => {
+describe('Favorite Food Requests', () => {
+  context('GET /api/v1/favorite_foods', () => {
+    it('should return most eaten foods in the database', done => {
       chai.request(app)
-        .get('/api/v1/foods')
+        .get('/api/v1/favorite_foods')
         .end((error, response) => {
           expect(response).to.have.status(200);
           expect(response.body.length).to.equal(3);
@@ -50,42 +50,4 @@ describe('Food Requests', () => {
         });
     });
   })
-
-  describe('GET /api/v1/food/:id', () => {
-    it('should return specific food for ID', done => {
-      chai.request(app)
-        .get('/api/v1/foods/3')
-        .end((error, response) => {
-          expect(response).to.have.status(200);
-          response.body.should.have.property('name')
-          response.body.should.have.property('calories')
-          response.body.should.have.property('id')
-
-          done();
-        });
-    });
-  });
-
-
-  describe('post /api/v1/food/:id', () => {
-    it('should create a food for ID', done => {
-      let name = 'PB'
-      let calories = 85
-      chai.request(app)
-        .post('/api/v1/foods')
-        .send({
-          food:{
-            name:name,
-            calories:calories
-          }
-        }).end((err, response) => {
-          expect(response).to.have.status(200);
-          response.body.should.have.property('name')
-          response.body.should.have.property('calories')
-          response.body.should.have.property('id')
-          done();
-        });
-      done();
-    });
-  });
 });
