@@ -7,5 +7,6 @@ class Food {
   static all() {
     return database('foods').select('id', 'name', 'calories')
   }
+}
 
 module.exports = Food
