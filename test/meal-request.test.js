@@ -42,22 +42,22 @@ before((done) => {
       throw error;
     });
   });
-//
-// describe('Meal Requests', () => {
-//   context('GET /api/v1/meals', () => {
-//     it('should return all meals in the database', done => {
-//       chai.request(app)
-//         .get('/api/v1/meals')
-//         .end((error, response) => {
-//           expect(response).to.have.status(200);
-//           expect(response.body.length).to.equal(4);
-//           response.body[0].should.have.property('name')
-//
-//           done();
-//         });
-//     });
-//   })
-//
+
+describe('Meal Requests', () => {
+  context('GET /api/v1/meals', () => {
+    it('should return all meals in the database', done => {
+      chai.request(app)
+        .get('/api/v1/meals')
+        .end((error, response) => {
+          expect(response).to.have.status(200);
+          expect(response.body.length).to.equal(4);
+          response.body[0].should.have.property('name')
+
+          done();
+        });
+    });
+  })
+
 //   describe('GET /api/v1/meals/:id', () => {
 //     it('should return specific meal for ID and associated foods', done => {
 //       chai.request(app)
@@ -97,4 +97,4 @@ before((done) => {
 //       done();
 //     });
 //   });
-// });
+});
