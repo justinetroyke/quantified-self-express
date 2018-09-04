@@ -43,22 +43,22 @@ before((done) => {
     });
   });
 
-describe('Favorite Food Requests', () => {
-  context('GET /api/v1/favorite_foods', () => {
-    it('should return most eaten foods in the database', done => {
-      chai.request(app)
-        .get('/api/v1/favorite_foods')
-        .end((error, response) => {
-          expect(response).to.have.status(200);
-          expect(response.body.length).to.equal(1);
-          fav_food = response.body[0]
-          fav_food.should.have.property('name')
-          fav_food.should.have.property('calories')
-          fav_food.should.have.property('id')
-          expect(fav_food.name).to.eq("Bagel")
-
-          done();
-        });
-    });
-  })
-});
+// describe('Favorite Food Requests', () => {
+//   context('GET /api/v1/favorite_foods', () => {
+//     it('should return most eaten foods in the database', done => {
+//       chai.request(app)
+//         .get('/api/v1/favorite_foods')
+//         .end((error, response) => {
+//           expect(response).to.have.status(200);
+//           expect(response.body.length).to.equal(1);
+//           fav_food = response.body[0]
+//           fav_food.should.have.property('name')
+//           fav_food.should.have.property('calories')
+//           fav_food.should.have.property('id')
+//           expect(fav_food.name).to.eq("Bagel")
+//
+//           done();
+//         });
+//     });
+//   })
+// });
