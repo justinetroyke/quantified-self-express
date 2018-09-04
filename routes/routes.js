@@ -28,16 +28,16 @@ router.get('/meals', cors(), (request, response, next)=>{
     });
 });
 
-router.get('/foods/:id', cors(), (request, response, next)=>{
-  let id = request.params.id
-  database('foods').select().where('id', id)
-    .then((foods)=>{
-      response.status(200).json(foods[0])
-    })
-    .catch((error)=>{
-      response.status(500).json({error})
-    });
-});
+// router.get('/foods/:id', cors(), (request, response, next)=>{
+//   let id = request.params.id
+//   database('foods').select().where('id', id)
+//     .then((foods)=>{
+//       response.status(200).json(foods[0])
+//     })
+//     .catch((error)=>{
+//       response.status(500).json({error})
+//     });
+// });
 
 router.get('/meals/:id/foods', async(request, response, next)=>{
   let id = request.params.id
