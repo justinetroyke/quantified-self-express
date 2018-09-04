@@ -7,9 +7,8 @@ var logger = require('morgan');
 // var route = require('./routes/routes');
 const foodsRouter = require('./routes/api/v1/foods');
 
-
-var app = express();
 var cors = require('cors')
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -18,6 +18,8 @@ router.use(cors());
 //     });
 // });
 
+
+
 router.get('/meals', cors(), (request, response, next)=>{
   database('meals').select()
     .then((meals)=>{
