@@ -50,16 +50,16 @@ router.get('/meals/:id/foods', async(request, response, next)=>{
     });
 });
 
-router.post('/foods', cors(), (request, response, next)=>{
-  let food_params = request.body.food
-  database('foods').insert(food_params, 'id')
-      .returning(['id', 'name', 'calories'])
-      .then((food) => {
-        return (food[0])
-      })
-      .catch(error => {
-        response.status(500).json({ error });
-      });
-});
+// router.post('/foods', cors(), (request, response, next)=>{
+//   let food_params = request.body.food
+//   database('foods').insert(food_params, 'id')
+//       .returning(['id', 'name', 'calories'])
+//       .then((food) => {
+//         return (food[0])
+//       })
+//       .catch(error => {
+//         response.status(500).json({ error });
+//       });
+// });
 
 module.exports = router;
