@@ -62,4 +62,14 @@ router.post('/foods', cors(), (request, response, next)=>{
       });
 });
 
+router.get('/favorite_foods', cors(), (request, response, next)=>{
+  database('favorites').select()
+    .then((foods)=>{
+      response.status(200).json(foods)
+    })
+    .catch((error)=>{
+      response.status(500).json({error})
+    });
+});
+
 module.exports = router;
