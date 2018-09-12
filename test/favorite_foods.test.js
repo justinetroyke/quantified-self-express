@@ -11,37 +11,37 @@ const configuration = require('../knexfile')[environment];
 const database = require('knex')(configuration);
 chai.use(chaiHttp);
 
-before((done) => {
-    database.migrate.latest()
-      .then(() => done())
-      .catch(error => {
-        throw error;
-      });
-  });
-
-  beforeEach((done) => {
-    database.seed.run()
-    .then( () => {
-      return Promise.all([
-        database('foods').insert({name:"Bagel", calories: 220, id:1}, 'id'),
-        database('foods').insert({name:"Turkey Sandwich", calories: 280, id:2}, 'id'),
-        database('foods').insert({name:"Eggs", calories: 85, id:3}, 'id')
-      ])
-    })    .then( ()=>{
-      return Promise.all([
-        database('meal_foods').insert({meals_id:1, food_id:1}, 'id'),
-        database('meal_foods').insert({meals_id:2, food_id:1}, 'id'),
-        database('meal_foods').insert({meals_id:3, food_id:3}, 'id'),
-        database('meal_foods').insert({meals_id:4, food_id:3}, 'id'),
-        database('meal_foods').insert({meals_id:3, food_id:2}, 'id'),
-        database('meal_foods').insert({meals_id:2, food_id:1}, 'id'),
-      ])
-    })
-    .then(() => done())
-    .catch(error => {
-      throw error;
-    });
-  });
+// before((done) => {
+//     database.migrate.latest()
+//       .then(() => done())
+//       .catch(error => {
+//         throw error;
+//       });
+//   });
+//
+//   beforeEach((done) => {
+//     database.seed.run()
+//     .then( () => {
+//       return Promise.all([
+//         database('foods').insert({name:"Bagel", calories: 220, id:1}, 'id'),
+//         database('foods').insert({name:"Turkey Sandwich", calories: 280, id:2}, 'id'),
+//         database('foods').insert({name:"Eggs", calories: 85, id:3}, 'id')
+//       ])
+//     })    .then( ()=>{
+//       return Promise.all([
+//         database('meal_foods').insert({meals_id:1, food_id:1}, 'id'),
+//         database('meal_foods').insert({meals_id:2, food_id:1}, 'id'),
+//         database('meal_foods').insert({meals_id:3, food_id:3}, 'id'),
+//         database('meal_foods').insert({meals_id:4, food_id:3}, 'id'),
+//         database('meal_foods').insert({meals_id:3, food_id:2}, 'id'),
+//         database('meal_foods').insert({meals_id:2, food_id:1}, 'id'),
+//       ])
+//     })
+//     .then(() => done())
+//     .catch(error => {
+//       throw error;
+//     });
+//   });
 
 // describe('Favorite Food Requests', () => {
 //   context('GET /api/v1/favorite_foods', () => {
