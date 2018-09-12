@@ -63,26 +63,4 @@ describe('Meal endpoints', function() {
       done();
     });
   });
-
-  describe('post /api/v1/food/:id', () => {
-    it('should create a food for ID', done => {
-      let name = 'PB'
-      let calories = 85
-      chai.request(app)
-        .post('/api/v1/foods')
-        .send({
-          food:{
-            name:name,
-            calories:calories
-          }
-        }).end((err, response) => {
-          expect(response).to.have.status(200);
-          response.body.should.have.property('name')
-          response.body.should.have.property('calories')
-          response.body.should.have.property('id')
-          done();
-        });
-      done();
-    });
-  });
 });
