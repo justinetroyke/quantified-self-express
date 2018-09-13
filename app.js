@@ -5,9 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
 
-// var route = require('./routes/routes');
 var foodsRouter = require('./routes/api/v1/foods');
 var mealsRouter = require('./routes/api/v1/meals');
+var favoriteFoodsRouter = require('./routes/api/v1/favorite_foods');
 
 const bodyParser = require('body-parser');
 
@@ -36,6 +36,7 @@ app.options('*', cors())
 // app.use('/api/v1', route);
 app.use('/api/v1/foods', foodsRouter);
 app.use('/api/v1/meals', mealsRouter);
+app.use('/api/v1/favorite_foods', favoriteFoodsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,3 +1,10 @@
-var router = express.Router()
-var Foods = database('foods').select()
-var Meals = express.Router()
+const Food = require("../models/food")
+
+const index = (req, res, next) => {
+  Food.favorites()
+  .then((foods) => {
+    res.json(foods.rows)
+  })
+}
+
+module.exports = { index }
