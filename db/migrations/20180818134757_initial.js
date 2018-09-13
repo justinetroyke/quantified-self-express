@@ -1,4 +1,3 @@
-
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('foods', function(table) {
@@ -16,18 +15,12 @@ exports.up = function(knex, Promise) {
       table.increments('id').primary();
       table.integer('food_id').references('foods.id')
       table.integer('meals_id').references('meals.id')
-    }),
-    knex.schema.createTable('favorite_foods', (table)=>{
-      table.increments('id').primary();
-      table.integer('food_id').references('foods.id')
-      table.integer('meals_id').references('meals.id')
     })
   ])
 };
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('favorite_foods'),
     knex.schema.dropTable('meal_foods'),
     knex.schema.dropTable('meals'),
     knex.schema.dropTable('foods')

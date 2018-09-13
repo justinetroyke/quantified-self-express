@@ -1,41 +1,37 @@
+process.env.NODE_ENV = 'test'
+
 const chai = require('chai');
+const chaiHttp = require('chai-http');
 const expect = chai.expect;
 const assert = chai.assert;
 const should = chai.should();
-const chaiHttp = require('chai-http');
 const app = require('../app');
 
-
-const environment = process.env.NODE_ENV || 'development';
-const configuration = require('../knexfile')[environment];
-const database = require('knex')(configuration);
 chai.use(chaiHttp);
 
-before((done) => {
-    database.migrate.latest()
-      .then(() => done())
-      .catch(error => {
-        throw error;
-      });
-  });
+const environment = 'test'
+const configuration = require('../knexfile')[environment]
+const knex = require('knex')(configuration)
 
+describe('Food endpoints', function() {
   beforeEach((done) => {
-    database.seed.run()
-    .then( () => {
-      return Promise.all([
-        database('foods').insert({name:"pickle", calories: 0, id:1}, 'id'),
-        database('foods').insert({name:"cilantro", calories: 1, id:2}, 'id'),
-        database('foods').insert({name:"green onion", calories: 5, id:3}, 'id')
-      ])
-    })
-    .then(() => done())
-    .catch(error => {
-      throw error;
+      knex.migrate.latest()
+      .then(() => {
+        knex.seed.run()
+        .then(() => {
+          done();
+      })
     });
   });
 
-describe('Food Requests', () => {
-  context('GET /api/v1/foods', () => {
+  afterEach((done) => {
+    knex.migrate.rollback()
+    .then(() => {
+      done();
+    });
+  });
+
+  describe('GET /api/v1/foods', () => {
     it('should return all foods in the database', done => {
       chai.request(app)
         .get('/api/v1/foods')
@@ -47,11 +43,11 @@ describe('Food Requests', () => {
           response.body[0].should.have.property('id')
 
           done();
-        });
-    });
-  })
+        })
+      })
+    })
 
-  describe('GET /api/v1/food/:id', () => {
+  context('GET /api/v1/food/:id', () => {
     it('should return specific food for ID', done => {
       chai.request(app)
         .get('/api/v1/foods/3')
@@ -67,25 +63,16 @@ describe('Food Requests', () => {
   });
 
 
-  describe('post /api/v1/food/:id', () => {
-    it('should create a food for ID', done => {
-      let name = 'PB'
-      let calories = 85
+  describe("GET /api/v1/foods/:id", () => {
+    it('returns food corresponding to :id', (done) => {
       chai.request(app)
-        .post('/api/v1/foods')
-        .send({
-          food:{
-            name:name,
-            calories:calories
-          }
-        }).end((err, response) => {
-          expect(response).to.have.status(200);
-          response.body.should.have.property('name')
-          response.body.should.have.property('calories')
-          response.body.should.have.property('id')
-          done();
-        });
-      done();
-    });
-  });
+      .get('/api/v1/foods/1')
+      .end((error, response) => {
+        expect(error).to.be.null;
+        expect(response).to.have.status(200);
+        expect(response.body.name).to.eq("Bagel");
+        done();
+      })
+    })
+  })
 });
