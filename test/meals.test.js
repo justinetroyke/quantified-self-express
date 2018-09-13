@@ -52,15 +52,12 @@ describe('Meal endpoints', function() {
         .get('/api/v1/meals/3/foods')
         .end((error, response) => {
           expect(response).to.have.status(200);
-          response.body.should.have.property('name')
-          response.body[0].should.have.property('name')
-          response.body[0].name.should.equal('Lunch')
-          response.body[0].id.should.equal(3)
-          response.body[0].foods.length.should.equal(2)
+          expect(response.body.id).to.equal(3)
+          expect(response.body.name).to.equal("Lunch")
+          expect(response.body.foods.length).to.equal(2)
 
           done();
         });
-      done();
     });
   });
 });
